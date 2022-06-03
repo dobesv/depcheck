@@ -7,12 +7,10 @@ declare function depcheck<T>(
 ): Promise<T>;
 
 declare namespace depcheck {
-  interface Node {
-    [key: string]: any;
-  }
+  type Node = Record<string, any>;
 
-  type Parser = (content: string, filePath: string, deps: ReadonlyArray<string>, rootDir: string) => Node;
-  type SpecialParser = (filePath: string, deps: ReadonlyArray<string>, rootDir: string) => string[];
+  type Parser = (filePath: string, deps: ReadonlyArray<string>, rootDir: string) => Node | string[];
+
   type Detector = (node: Node) => ReadonlyArray<string> | string;
 
   interface PackageDependencies {
@@ -36,7 +34,7 @@ declare namespace depcheck {
       [match: string]: Parser;
     };
     detectors?: ReadonlyArray<Detector>;
-    specials?: ReadonlyArray<SpecialParser>;
+    specials?: ReadonlyArray<Parser>;
   }
 
   interface Config {
