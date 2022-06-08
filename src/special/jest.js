@@ -2,6 +2,7 @@ import path from 'path';
 import lodash from 'lodash';
 import requirePackageName from 'require-package-name';
 import { getContent } from '../utils/file';
+import { tryRequire } from '../utils';
 
 const _ = lodash;
 
@@ -102,8 +103,7 @@ function checkOptions(deps, options = {}) {
 export default async function parseJest(filename, deps, rootDir) {
   const basename = path.basename(filename);
   if (jestConfigRegex.test(basename)) {
-    // eslint-disable-next-line global-require
-    const options = require(filename) || {};
+    const options = tryRequire(filename) || {};
     return checkOptions(deps, options);
   }
 

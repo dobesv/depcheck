@@ -1,9 +1,9 @@
 const requirePackageName = require('require-package-name');
 const { tryRequire } = require('../utils');
 
-export default function storybookParser(filePath) {
+export default function storybookParser(filePath, deps, rootDir) {
   const foundDeps = [];
-  const config = tryRequire(filePath);
+  const config = tryRequire(filePath, rootDir);
   const { addons, core, framework, typescript } = config;
   if (typeof framework === 'string') {
     foundDeps.push(framework);
