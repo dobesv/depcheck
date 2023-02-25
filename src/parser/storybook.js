@@ -1,3 +1,4 @@
+const path = require('path');
 const requirePackageName = require('require-package-name');
 const { tryRequire } = require('../utils');
 
@@ -26,5 +27,7 @@ export default function storybookParser(filePath, deps, rootDir) {
   if (typescript) {
     foundDeps.push('typescript');
   }
-  return foundDeps;
+  return foundDeps.filter(
+    (p) => !(path.isAbsolute(p) || p.startsWith('./') || p.startsWith('../')),
+  );
 }
